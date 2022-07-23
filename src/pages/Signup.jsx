@@ -2,13 +2,30 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import BackgroundImage from '../components/BackgroundImage';
 import Header from '../components/Header';
-
+import auth from '../utils/firebase.init';
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 export default function Signup() {
+  const [
+    createUserWithEmailAndPassword,
+    user,
+    loading,
+    error,
+  ] = useCreateUserWithEmailAndPassword(auth);
   const [showPassword, setShowPassword] = useState(false);
   const [formValues, setFormValues] = useState({
     email: '',
     password: '',
   });
+
+
+  const handleSignIn = async () => {
+    try {
+      const { email, password } = formValues;
+      await createUserWithEmailAndPassword(email, password);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <Container showPassword={showPassword}>
       <BackgroundImage />
@@ -30,7 +47,7 @@ export default function Signup() {
              !showPassword &&  <button onClick={()=> setShowPassword(true)}>Get Started</button>
             }
           </div>
-          <button>Sign Up</button>
+          <button onClick={handleSignIn}>Sign Up</button>
         </div>
       </div>
     </Container>
