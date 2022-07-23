@@ -4,6 +4,7 @@ import BackgroundImage from '../components/BackgroundImage';
 import Header from '../components/Header';
 import auth from '../utils/firebase.init';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useNavigate } from 'react-router-dom';
 export default function Signup() {
   const [
     createUserWithEmailAndPassword,
@@ -16,7 +17,10 @@ export default function Signup() {
     email: '',
     password: '',
   });
-
+  const navigate = useNavigate();
+  if (user) {
+    navigate('/');
+  }
 
   const handleSignIn = async () => {
     try {
