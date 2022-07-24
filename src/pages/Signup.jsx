@@ -22,7 +22,7 @@ export default function Signup() {
     navigate('/');
   }
 
-  const handleSignIn = async () => {
+  const handleSignUp = async () => {
     try {
       const { email, password } = formValues;
       await createUserWithEmailAndPassword(email, password);
@@ -51,7 +51,7 @@ export default function Signup() {
              !showPassword &&  <button onClick={()=> setShowPassword(true)}>Get Started</button>
             }
           </div>
-          <button onClick={handleSignIn}>Sign Up</button>
+          <button onClick={handleSignUp}>Sign Up</button>
         </div>
       </div>
     </Container>
