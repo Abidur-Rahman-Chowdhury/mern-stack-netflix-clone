@@ -1,24 +1,25 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import BackgroundImage from '../components/BackgroundImage';
 import Header from '../components/Header';
 import auth from '../utils/firebase.init';
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useAuthState, useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
 export default function Signup() {
   const [
     createUserWithEmailAndPassword,
-    user,
-    loading,
-    error,
+    user
+    
   ] = useCreateUserWithEmailAndPassword(auth);
   const [showPassword, setShowPassword] = useState(false);
   const [formValues, setFormValues] = useState({
     email: '',
     password: '',
   });
+  const [user2] = useAuthState(auth)
   const navigate = useNavigate();
-  if (user) {
+  if (user2) {
     navigate('/');
   }
 
