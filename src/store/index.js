@@ -75,6 +75,10 @@ const NetflixSlice = createSlice({
       state.genres = action.payload;
       state.genresLoaded = true;
     });
+    builder.addCase(fetchMovies.fulfilled, (state, action) => {
+        state.movies = action.payload;
+        
+      });
   },
 });
 
