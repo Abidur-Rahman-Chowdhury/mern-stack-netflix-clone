@@ -6,16 +6,30 @@ import { FaPlay } from 'react-icons/fa';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchMovies, getGenres } from '../store';
 const Netflix = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
+  const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getGenres());
+  }, []);
+
+  useEffect(() => {
+    if (genresLoaded) dispatch(fetchMovies({ type: 'all' }));
+  });
 
   window.onscroll = () => {
     setIsScrolled(window.pageYOffset === 0 ? false : true);
 
     return () => (window.onscroll = null);
   };
-  
+
   return (
     <Container>
       <Navbar isScrolled={isScrolled} />
@@ -30,7 +44,10 @@ const Netflix = () => {
             <img src={MovieLogo} alt="Movie Logo" />
           </div>
           <div className="buttons flex">
-            <button className="flex j-center a-center" onClick={() => navigate('/player')}>
+            <button
+              className="flex j-center a-center"
+              onClick={() => navigate('/player')}
+            >
               <FaPlay /> Play
             </button>
             <button className="flex j-center a-center">
@@ -66,27 +83,26 @@ const Container = styled.div`
       .buttons {
         margin: 5rem;
         gap: 2rem;
-        button{
-            font-size: 1.4rem;
-            gap: 1rem;
-            border-radius: 0.2rem;
-            padding: 0.5rem;
-            padding-left: 2rem;
-            padding-right: 2.4rem;
-            border:none;
-            cursor: pointer;
-            transition: 0.3s ease-in-out;
-            &:hover{
-                opacity: 0.8;
+        button {
+          font-size: 1.4rem;
+          gap: 1rem;
+          border-radius: 0.2rem;
+          padding: 0.5rem;
+          padding-left: 2rem;
+          padding-right: 2.4rem;
+          border: none;
+          cursor: pointer;
+          transition: 0.3s ease-in-out;
+          &:hover {
+            opacity: 0.8;
+          }
+          &:nth-of-type(2) {
+            background-color: rgba(100, 100, 110, 0.7);
+            color: white;
+            svg {
+              font-size: 1.8rem;
             }
-            &:nth-of-type(2){
-                background-color: rgba(100,100,110,0.7);
-                color: white;
-                svg {
-                    font-size: 1.8rem;
-                }
-            }
-
+          }
         }
       }
     }
